@@ -2,7 +2,7 @@
 
 An attempt at providing a solution for https://github.com/Intracto/SecretSanta/issues/510
 
-# Challenge requirements
+# Functional requirements
 ##### Write an algorithm that assigns every participant to another participant
 
 - Given participants A, B, C, D, E.
