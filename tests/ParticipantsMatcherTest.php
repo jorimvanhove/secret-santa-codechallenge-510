@@ -21,7 +21,7 @@ final class ParticipantsMatcherTest extends TestCase
         $participants = $this->participantCollectionFactory();
         $matcher = new Matcher($participants);
         $matcher->match();
-        self::assertGreaterThan(0, $matcher->getmatchedParticipants()->count());
+        self::assertGreaterThan(0, $matcher->getMatchedParticipants()->count());
     }
 
     public function testUniqueMatchedReceivers(): void
@@ -29,6 +29,7 @@ final class ParticipantsMatcherTest extends TestCase
         $participants = $this->participantCollectionFactory();
         $matcher = new Matcher($participants);
         $matcher->match();
+        self::assertGreaterThan(0, $matcher->getMatchedParticipants()->count());
         self::assertTrue($matcher->getMatchedParticipants()->validateUniqueMatches(false));
     }
 

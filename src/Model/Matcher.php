@@ -25,7 +25,7 @@ class Matcher
         }
     }
 
-    public function match(bool $shuffleParticipants = true)
+    public function match(bool $shuffleParticipants = true, bool $validateUniqueMatches = true)
     {
         if ($shuffleParticipants)
         {
@@ -38,7 +38,11 @@ class Matcher
             $this->unmatchedParticipants->shuffle();
             $this->TryMatchParticipants($this->unmatchedParticipants);
         }
-        $this->matchedParticipants->validateUniqueMatches();
+
+        if ($validateUniqueMatches)
+        {
+            $this->matchedParticipants->validateUniqueMatches();
+        }
     }
 
     public function getMatchedParticipants(): ParticipantCollection

@@ -86,12 +86,24 @@ class Main
             echo($participant->getId() . ' -> ' . $participant->getMatch()->getId() . "\n\r");
         }
 
-        $matcher->getUnmatchedParticipants()->unshuffle();
-        echo("Unmatched participants:\n\r");
-        foreach ($matcher->getUnmatchedParticipants() as $participant) {
-            echo($participant->getId() . ' ->  - ' . "\n\r");
-            if ($participant->getExcludes() !== null){
-                $participant->getExcludes()->dumpAsJson();
+        if ($matcher->getUnmatchedParticipants()->count()){
+            $matcher->getUnmatchedParticipants()->unshuffle();
+            echo ("\n\r");
+            echo("Unmatched participants:\n\r");
+            foreach ($matcher->getUnmatchedParticipants() as $participant) {
+                echo("No compatible match found for participant " . $participant->getId());
+
+                if ($participant->getExcludes() !== null){
+                    echo (" - excludes: ");
+                    $tmp = [];
+                    foreach($participant->getExcludes() as $exclude)
+                    {
+                        $tmp[] = $exclude->getId();
+                    }
+                    echo("[" . implode(',', $tmp) . "]");
+                }
+
+                echo ("\n\r");
             }
         }
     }
