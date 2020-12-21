@@ -7,6 +7,7 @@ class Participant
 {
     private int $id;
     private ?ParticipantCollection $excludes;
+    private ?ParticipantCollection $allowedMatches;
     private ?Participant $match;
 
     public function __construct(int $id, ?ParticipantCollection $excludes = null)
@@ -19,7 +20,17 @@ class Participant
             $this->excludes = null;
         }
 
+        $this->allowedMatches = null;
+
         $this->match = null;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     /**
@@ -36,7 +47,7 @@ class Participant
     public function setMatch(Participant $match): void
     {
         if ($match->id === $this->id){
-            throw new InvalidMatchException("Participant can not be matched to itself");
+            throw new InvalidMatchException("Participant can not be matched to self.");
         }
 
         $this->match = $match;
@@ -59,12 +70,18 @@ class Participant
     }
 
     /**
-     * @return int
+     * @return ParticipantCollection|null
      */
-    public function getId(): int
+    public function getAllowedMatches(): ?ParticipantCollection
     {
-        return $this->id;
+        return $this->allowedMatches;
     }
 
-
+    /**
+     * @param ParticipantCollection|null $allowedMatches
+     */
+    public function setAllowedMatches(?ParticipantCollection $allowedMatches): void
+    {
+        $this->allowedMatches = $allowedMatches;
+    }
 }

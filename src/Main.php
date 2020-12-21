@@ -37,10 +37,6 @@ class Main
 
     private function AddExcludesRandomized(ParticipantCollection $participants)
     {
-        if ($this->maxAllowedNumberOfExcludes > $this->numberOfParticipants/4) {
-            throw new Exception("Maximum allowed number of excludes is too high");
-        }
-
         foreach ($participants as $index => $participant)
         {
             $excludes = new ParticipantCollection();
@@ -56,7 +52,7 @@ class Main
                 } while ($randomIndex === $index);
 
                 $participantToExclude = $participants->atIndex($randomIndex);
-                if ($participantToExclude !== null){
+                if ($participantToExclude !== null && $participantToExclude !== $participant && $excludes->any($participantToExclude) === false){
                     $excludes->addParticipant($participantToExclude);
                 }
             }
@@ -94,6 +90,9 @@ class Main
         echo("Unmatched participants:\n\r");
         foreach ($matcher->getUnmatchedParticipants() as $participant) {
             echo($participant->getId() . ' ->  - ' . "\n\r");
+            if ($participant->getExcludes() !== null){
+                $participant->getExcludes()->dumpAsJson();
+            }
         }
     }
 
