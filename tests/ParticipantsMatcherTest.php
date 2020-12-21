@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use Exception\UnresolvedMatchException;
 use Model\Matcher;
 use Model\Participant;
 use Model\ParticipantCollection;
@@ -11,7 +12,7 @@ final class ParticipantsMatcherTest extends TestCase
     {
         $participants = $this->participantCollectionFactory();
         $matcher = new Matcher($participants);
-        $matcher->match(false);
+        $matcher->match(false, true);
         $unmatchedParticipants = $matcher->getUnmatchedParticipants();
         self::assertCount(0, $unmatchedParticipants);
     }
@@ -22,6 +23,14 @@ final class ParticipantsMatcherTest extends TestCase
         $matcher = new Matcher($participants);
         $matcher->match();
         self::assertGreaterThan(0, $matcher->getMatchedParticipants()->count());
+    }
+
+    public function testThrowsOnUnresolvedParticipants(): void
+    {
+        $this->expectException(UnresolvedMatchException::class);
+        $participants = $this->impossibleToResolveParticipantsCollectionFactory();
+        $matcher = new Matcher($participants);
+        $matcher->match(true, true);
     }
 
     public function testUniqueMatchedReceivers(): void
@@ -78,6 +87,32 @@ final class ParticipantsMatcherTest extends TestCase
         $participants->addParticipant($participantC);
         $participants->addParticipant($participantD);
         $participants->addParticipant($participantE);
+
+        return $participants;
+    }
+
+    /**
+     * @return ParticipantCollection
+     */
+    private function impossibleToResolveParticipantsCollectionFactory(): ParticipantCollection
+    {
+        $participants = new ParticipantCollection();
+
+        $participantA = new Participant(0);
+        $participantB = new Participant(1);
+        $participantC = new Participant(2);
+
+        $excludesForA = new ParticipantCollection();
+        $excludesForA->addParticipant($participantC);
+        $participantA->setExcludes($excludesForA);
+
+        $excludesForB = new ParticipantCollection();
+        $excludesForB->addParticipant($participantC);
+        $participantB->setExcludes($excludesForB);
+
+        $participants->addParticipant($participantA);
+        $participants->addParticipant($participantB);
+        $participants->addParticipant($participantC);
 
         return $participants;
     }

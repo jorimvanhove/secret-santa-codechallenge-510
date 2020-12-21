@@ -33,7 +33,7 @@ class Matcher
      * @throws InvalidMatchException
      * @throws UnresolvedMatchException
      */
-    public function match(bool $shuffleParticipants = true, bool $validateUniqueMatches = true, bool $throwOnUnresolved = false)
+    public function match(bool $shuffleParticipants = true, bool $throwOnUnresolved = false, bool $validateUniqueMatches = true): void
     {
         if ($shuffleParticipants)
         {
