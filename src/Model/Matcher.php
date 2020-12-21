@@ -4,6 +4,7 @@
 namespace Model;
 
 use Exception\InvalidMatchException;
+use Exception\UnresolvedMatchException;
 
 class Matcher
 {
@@ -25,7 +26,14 @@ class Matcher
         }
     }
 
-    public function match(bool $shuffleParticipants = true, bool $validateUniqueMatches = true)
+    /**
+     * @param bool $shuffleParticipants
+     * @param bool $validateUniqueMatches
+     * @param bool $throwOnUnresolved
+     * @throws InvalidMatchException
+     * @throws UnresolvedMatchException
+     */
+    public function match(bool $shuffleParticipants = true, bool $validateUniqueMatches = true, bool $throwOnUnresolved = false)
     {
         if ($shuffleParticipants)
         {
@@ -42,6 +50,11 @@ class Matcher
         if ($validateUniqueMatches)
         {
             $this->matchedParticipants->validateUniqueMatches();
+        }
+
+        if ($throwOnUnresolved && $this->unmatchedParticipants->count())
+        {
+            throw new UnresolvedMatchException("Some participants could not be matched", $this->unmatchedParticipants);
         }
     }
 

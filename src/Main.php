@@ -24,7 +24,7 @@ class Main
         $this->AddExcludesRandomized($participants);
 
         $matcher = new Matcher($participants);
-        $matcher->match();
+        $matcher->match(true, true, true);
 
         $this->OutputResult($matcher);
 

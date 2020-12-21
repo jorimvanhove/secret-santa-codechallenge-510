@@ -1,6 +1,7 @@
 <?php
 use Exception\InvalidMatchException;
 use Exception\ParticipantNotFoundException;
+use Exception\UnresolvedMatchException;
 use Model\Matcher;
 use Model\Participant;
 use Model\ParticipantCollection;
@@ -11,3 +12,4 @@ spl_autoload(ParticipantCollection::class);
 spl_autoload(Matcher::class);
 spl_autoload(InvalidMatchException::class);
 spl_autoload(ParticipantNotFoundException::class);
+spl_autoload(UnresolvedMatchException::class);

@@ -130,13 +130,4 @@ class ParticipantCollection implements Iterator, \Countable
 
         return true;
     }
-
-    public function dumpAsJson(): void
-    {
-        var_dump(json_encode(array_map(static function ($v) {
-                        return $v->getId();
-                    },
-                    $this->participants))
-        );
-    }
 }
