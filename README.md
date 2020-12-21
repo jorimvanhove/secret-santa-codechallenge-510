@@ -31,7 +31,7 @@ Eg with participants A, B, C:
 
 This would result in **A -> B -> A** and a **C** that can't be assigned.
 
-#####Must run in an acceptable time with > 200 participants.
+##### Must run in an acceptable time with > 200 participants.
 
 # Project setup
 Make sure you have PHP 7.4 or higher installed. 
