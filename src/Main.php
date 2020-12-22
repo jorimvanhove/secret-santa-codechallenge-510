@@ -9,16 +9,20 @@ class Main
 {
     private int $numberOfParticipants;
     private int $maxAllowedNumberOfExcludes;
+    private string $verbosity;
 
-    public function __construct(int $numberOfParticipants, int $maxAllowedNumberOfExcludes)
+    public function __construct(int $numberOfParticipants, int $maxAllowedNumberOfExcludes, string $verbosity = "")
     {
         $this->numberOfParticipants = $numberOfParticipants;
         $this->maxAllowedNumberOfExcludes = $maxAllowedNumberOfExcludes;
+        $this->verbosity = $verbosity;
     }
 
     public function run(): void
     {
         $rustart = getrusage();
+
+        echo ("Matching " . $this->numberOfParticipants . ", each with max. " . $this->maxAllowedNumberOfExcludes . " excludes.\n\r");
 
         $participants = $this->ParticipantCollectionFactory();
         $this->AddExcludesRandomized($participants);
@@ -26,9 +30,13 @@ class Main
         $matcher = new Matcher($participants);
         $matcher->match(true, true, true);
 
-        $this->OutputResult($matcher);
+        if ($this->verbosity === "debug")
+        {
+            $this->OutputResult($matcher);
+        }
 
         $ru = getrusage();
+
         echo "This process used " . $this->rutime($ru, $rustart, "utime") .
             " ms for its computations\n";
         echo "It spent " . $this->rutime($ru, $rustart, "stime") .

@@ -10,5 +10,5 @@ require_once('src/autoload.php');
 $numberOfParticipants = 250;
 $numberOfExcludes = 4;
 
-$program = new Main($numberOfParticipants, $numberOfExcludes);
+$program = new Main($numberOfParticipants, $numberOfExcludes, "debug");
 $program->run();
