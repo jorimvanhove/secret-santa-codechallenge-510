@@ -7,7 +7,6 @@ class Participant
 {
     private int $id;
     private ?ParticipantCollection $excludes;
-    private ?ParticipantCollection $allowedMatches;
     private ?Participant $match;
 
     public function __construct(int $id, ?ParticipantCollection $excludes = null)
@@ -19,8 +18,6 @@ class Participant
         } else {
             $this->excludes = null;
         }
-
-        $this->allowedMatches = null;
 
         $this->match = null;
     }
@@ -67,21 +64,5 @@ class Participant
     public function setExcludes(ParticipantCollection $excludes): void
     {
         $this->excludes = $excludes;
-    }
-
-    /**
-     * @return ParticipantCollection|null
-     */
-    public function getAllowedMatches(): ?ParticipantCollection
-    {
-        return $this->allowedMatches;
-    }
-
-    /**
-     * @param ParticipantCollection|null $allowedMatches
-     */
-    public function setAllowedMatches(?ParticipantCollection $allowedMatches): void
-    {
-        $this->allowedMatches = $allowedMatches;
     }
 }
